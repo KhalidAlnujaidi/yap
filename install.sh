@@ -1,13 +1,13 @@
 #!/usr/bin/env bash
 # Yap — one-line installer for Apple Silicon Macs.
 #
-#   curl -fsSL https://raw.githubusercontent.com/__GH_USER__/yap/main/install.sh | bash
+#   curl -fsSL https://raw.githubusercontent.com/KhalidAlnujaidi/yap/main/install.sh | bash
 #
 # Installs prerequisites (Homebrew ffmpeg + uv if missing), clones Yap, builds
 # the model environment, and installs "Yap.app" into /Applications.
 set -euo pipefail
 
-REPO="https://github.com/__GH_USER__/yap.git"
+REPO="https://github.com/KhalidAlnujaidi/yap.git"
 YAP_DIR="${YAP_DIR:-$HOME/.local/share/yap}"
 
 say() { printf "\033[1;32m🦜 %s\033[0m\n" "$*"; }

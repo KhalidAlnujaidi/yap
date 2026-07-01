@@ -48,7 +48,7 @@ And it matters more now than ever. If you spend your day **coding and talking to
 **One line** (Apple Silicon macOS, [Homebrew](https://brew.sh) required):
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/__GH_USER__/yap/main/install.sh | bash
+curl -fsSL https://raw.githubusercontent.com/KhalidAlnujaidi/yap/main/install.sh | bash
 ```
 
 This installs `ffmpeg` + [`uv`](https://github.com/astral-sh/uv) if needed, grabs the speech model once (~1–2.5 GB), builds **Yap.app**, and drops it in `/Applications`.
@@ -59,7 +59,7 @@ Then launch **Yap** from Spotlight, grant **Microphone** + **Accessibility** on 
 <summary>Manual install</summary>
 
 ```bash
-git clone https://github.com/__GH_USER__/yap.git
+git clone https://github.com/KhalidAlnujaidi/yap.git
 cd yap
 brew install ffmpeg          # if you don't have it
 uv sync                      # builds the env, downloads the model on first run
