@@ -1,0 +1,35 @@
+[project]
+name = "parakeet-dictation"
+version = "0.1.0"
+description = "Always-on macOS menu-bar dictation using Parakeet TDT 0.6B v2 (MLX)"
+requires-python = ">=3.12,<3.13"
+dependencies = [
+    "parakeet-mlx",
+    "silero-vad",
+    "torch",
+    "sounddevice",
+    # Force a modern numba (arm64 py3.12 wheels, supports numpy 2.2) so the
+    # resolver does not fall back to an ancient numba that builds llvmlite.
+    "numba>=0.61.2",
+    "numpy>=2.2.5",
+    "rumps",
+    "pyobjc-core",
+    "pyobjc-framework-Cocoa",
+    "pyobjc-framework-Quartz",
+    "pyobjc-framework-ApplicationServices",
+    "pyobjc-framework-ServiceManagement",
+]
+
+[dependency-groups]
+dev = ["pytest", "py2app"]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/parakeet_dictation"]
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
+testpaths = ["tests"]
