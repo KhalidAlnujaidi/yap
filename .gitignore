@@ -13,3 +13,7 @@ dist/
 
 # macOS
 .DS_Store
+
+# OMC / agent orchestration state (never publish)
+.omc/
+.remember/
