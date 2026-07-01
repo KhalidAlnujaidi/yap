@@ -49,7 +49,6 @@ class DictationApp(rumps.App):
         self.sink = OutputSink(
             set_clipboard=macos.set_clipboard,
             paste=macos.paste,
-            type_space=macos.press_space,
             auto_paste=True,
         )
         self.start_worker()

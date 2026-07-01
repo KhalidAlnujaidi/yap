@@ -42,12 +42,3 @@ def paste() -> None:
     Quartz.CGEventSetFlags(v_up, Quartz.kCGEventFlagMaskCommand)
     Quartz.CGEventPost(Quartz.kCGHIDEventTap, v_down)
     Quartz.CGEventPost(Quartz.kCGHIDEventTap, v_up)
-
-
-def press_space() -> None:
-    # Post a space (virtual keycode 49) to separate consecutive phrases.
-    src = Quartz.CGEventSourceCreate(Quartz.kCGEventSourceStateHIDSystemState)
-    down = Quartz.CGEventCreateKeyboardEvent(src, 49, True)
-    up = Quartz.CGEventCreateKeyboardEvent(src, 49, False)
-    Quartz.CGEventPost(Quartz.kCGHIDEventTap, down)
-    Quartz.CGEventPost(Quartz.kCGHIDEventTap, up)
