@@ -10,11 +10,13 @@ class OutputSink:
         self,
         set_clipboard: Callable[[str], None],
         paste: Callable[[], None],
+        type_space: Callable[[], None] | None = None,
         auto_paste: bool = True,
         maxlen: int = 15,
     ):
         self._set_clipboard = set_clipboard
         self._paste = paste
+        self._type_space = type_space or (lambda: None)
         self.auto_paste = auto_paste
         self._history: deque[str] = deque(maxlen=maxlen)
 
@@ -30,6 +32,7 @@ class OutputSink:
         # VS Code, terminals) don't report a standard text-field role.
         if self.auto_paste:
             self._paste()
+            self._type_space()  # separate consecutive phrases with a space
         return True
 
     def recent(self) -> list[str]:
