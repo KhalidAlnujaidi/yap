@@ -24,12 +24,17 @@ class DictationApp(rumps.App):
         self._stop = threading.Event()
 
         self.pause_item = rumps.MenuItem("Pause", callback=self.toggle_pause)
+        self.autopaste_item = rumps.MenuItem(
+            "Auto-paste (⌘V)", callback=self.toggle_autopaste
+        )
+        self.autopaste_item.state = True
         self.login_item = rumps.MenuItem(
             "Start at Login", callback=self.toggle_login
         )
         self.login_item.state = self._login_enabled()
         self.menu = [
             self.pause_item,
+            self.autopaste_item,
             None,
             "Recent transcripts:",
             None,
@@ -43,8 +48,8 @@ class DictationApp(rumps.App):
         self.transcriber = Transcriber()
         self.sink = OutputSink(
             set_clipboard=macos.set_clipboard,
-            is_field_focused=macos.is_text_field_focused,
             paste=macos.paste,
+            auto_paste=True,
         )
         self.start_worker()
 
@@ -107,6 +112,10 @@ class DictationApp(rumps.App):
         self.paused = not self.paused
         self.pause_item.title = "Resume" if self.paused else "Pause"
         self.title = PAUSED_ICON if self.paused else IDLE_ICON
+
+    def toggle_autopaste(self, sender) -> None:
+        self.sink.auto_paste = not self.sink.auto_paste
+        sender.state = self.sink.auto_paste
 
     def toggle_login(self, sender) -> None:
         try:

@@ -1,4 +1,4 @@
-"""Delivery of finished transcripts: clipboard, optional paste, recent history."""
+"""Delivery of finished transcripts: clipboard, optional auto-paste, history."""
 from __future__ import annotations
 
 from collections import deque
@@ -9,13 +9,13 @@ class OutputSink:
     def __init__(
         self,
         set_clipboard: Callable[[str], None],
-        is_field_focused: Callable[[], bool],
         paste: Callable[[], None],
+        auto_paste: bool = True,
         maxlen: int = 15,
     ):
         self._set_clipboard = set_clipboard
-        self._is_field_focused = is_field_focused
         self._paste = paste
+        self.auto_paste = auto_paste
         self._history: deque[str] = deque(maxlen=maxlen)
 
     def deliver(self, text: str) -> bool:
@@ -24,7 +24,11 @@ class OutputSink:
             return False
         self._history.appendleft(text)
         self._set_clipboard(text)
-        if self._is_field_focused():
+        # Always set the clipboard; synthesize ⌘V to drop it at the cursor when
+        # auto-paste is on. We paste unconditionally rather than guessing at the
+        # focused element's Accessibility role, because code editors (Sublime,
+        # VS Code, terminals) don't report a standard text-field role.
+        if self.auto_paste:
             self._paste()
         return True
 
