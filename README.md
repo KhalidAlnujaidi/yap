@@ -134,7 +134,7 @@ The pause length and sensitivity live as constants on `Segmenter` in [`src/yap/v
 
 Yap is intentionally small and Apple-Silicon-first. It's **MIT-licensed** — fork it, ship it, extend it. Especially welcome:
 
-- 🧠 **An optional tiny local LLM that polishes raw speech into clean, grammatical sentences** — still 100% on-device, no keys, opt-in for when you want prose instead of verbatim.
+- 🧠 **An optional tiny local LLM that cleans up raw speech** — trimming fillers (um, uh, like, you know) and fixing grammar into polished sentences. Context-aware, so it won't butcher "I *like* this." Still 100% on-device, no keys, opt-in for when you want prose instead of verbatim.
 - 🪟 **Windows / 🐧 Linux** ports (swap the macOS clipboard/paste/menu-bar layer)
 - 🌍 Multilingual models (Parakeet has multilingual variants)
 - ⌨️ A push-to-talk / hotkey mode
