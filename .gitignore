@@ -1,0 +1,15 @@
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# uv
+.uv_cache/
+
+# py2app build output
+build/
+dist/
+
+# macOS
+.DS_Store
