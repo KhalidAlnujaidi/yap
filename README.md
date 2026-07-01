@@ -12,7 +12,9 @@ Speak anywhere — your words land where your cursor is. No button. No cloud. No
 ![macOS](https://img.shields.io/badge/macOS-13%2B-black)
 ![Powered by MLX](https://img.shields.io/badge/powered%20by-MLX-black)
 
+<!-- Demo GIF: drop the recording at docs/demo.gif and restore the line below.
 <img src="docs/demo.gif" alt="Yap demo — talking into a text field, words appearing in real time" width="720">
+-->
 
 </div>
 
