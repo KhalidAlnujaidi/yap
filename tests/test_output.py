@@ -1,4 +1,4 @@
-from parakeet_dictation.output import OutputSink
+from yap.output import OutputSink
 
 
 def _make(focused=False):

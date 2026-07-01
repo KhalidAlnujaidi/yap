@@ -676,49 +676,6 @@ wheels = [
 ]
 
 [[package]]
-name = "parakeet-dictation"
-version = "0.1.0"
-source = { editable = "." }
-dependencies = [
-    { name = "numba" },
-    { name = "numpy" },
-    { name = "parakeet-mlx" },
-    { name = "pyobjc-core" },
-    { name = "pyobjc-framework-applicationservices" },
-    { name = "pyobjc-framework-cocoa" },
-    { name = "pyobjc-framework-quartz" },
-    { name = "pyobjc-framework-servicemanagement" },
-    { name = "rumps" },
-    { name = "silero-vad" },
-    { name = "sounddevice" },
-    { name = "torch" },
-]
-
-[package.dev-dependencies]
-dev = [
-    { name = "pytest" },
-]
-
-[package.metadata]
-requires-dist = [
-    { name = "numba", specifier = ">=0.61.2" },
-    { name = "numpy", specifier = ">=2.2.5" },
-    { name = "parakeet-mlx" },
-    { name = "pyobjc-core" },
-    { name = "pyobjc-framework-applicationservices" },
-    { name = "pyobjc-framework-cocoa" },
-    { name = "pyobjc-framework-quartz" },
-    { name = "pyobjc-framework-servicemanagement" },
-    { name = "rumps" },
-    { name = "silero-vad" },
-    { name = "sounddevice" },
-    { name = "torch" },
-]
-
-[package.metadata.requires-dev]
-dev = [{ name = "pytest" }]
-
-[[package]]
 name = "parakeet-mlx"
 version = "0.5.2"
 source = { registry = "https://pypi.org/simple" }
@@ -1172,3 +1129,46 @@ sdist = { url = "https://files.pythonhosted.org/packages/53/0c/06f8b233b8fd13b9e
 wheels = [
     { url = "https://files.pythonhosted.org/packages/7f/3e/5db95bcf282c52709639744ca2a8b149baccf648e39c8cc87553df9eae0c/urllib3-2.7.0-py3-none-any.whl", hash = "sha256:9fb4c81ebbb1ce9531cce37674bbc6f1360472bc18ca9a553ede278ef7276897", size = 131087, upload-time = "2026-05-07T16:13:17.151Z" },
 ]
+
+[[package]]
+name = "yap"
+version = "0.1.0"
+source = { editable = "." }
+dependencies = [
+    { name = "numba" },
+    { name = "numpy" },
+    { name = "parakeet-mlx" },
+    { name = "pyobjc-core" },
+    { name = "pyobjc-framework-applicationservices" },
+    { name = "pyobjc-framework-cocoa" },
+    { name = "pyobjc-framework-quartz" },
+    { name = "pyobjc-framework-servicemanagement" },
+    { name = "rumps" },
+    { name = "silero-vad" },
+    { name = "sounddevice" },
+    { name = "torch" },
+]
+
+[package.dev-dependencies]
+dev = [
+    { name = "pytest" },
+]
+
+[package.metadata]
+requires-dist = [
+    { name = "numba", specifier = ">=0.61.2" },
+    { name = "numpy", specifier = ">=2.2.5" },
+    { name = "parakeet-mlx" },
+    { name = "pyobjc-core" },
+    { name = "pyobjc-framework-applicationservices" },
+    { name = "pyobjc-framework-cocoa" },
+    { name = "pyobjc-framework-quartz" },
+    { name = "pyobjc-framework-servicemanagement" },
+    { name = "rumps" },
+    { name = "silero-vad" },
+    { name = "sounddevice" },
+    { name = "torch" },
+]
+
+[package.metadata.requires-dev]
+dev = [{ name = "pytest" }]

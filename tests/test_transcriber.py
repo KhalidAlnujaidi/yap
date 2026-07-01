@@ -1,6 +1,6 @@
 import wave
 import numpy as np
-from parakeet_dictation.transcriber import write_wav, Transcriber
+from yap.transcriber import write_wav, Transcriber
 
 
 def test_write_wav_roundtrip(tmp_path):

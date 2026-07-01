@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
-# Build a native "Parakeet Dictation.app" bundle that launches the menu-bar app
-# using this project's uv-managed virtualenv, then install it to /Applications.
+# Build a native "Yap.app" bundle that launches the menu-bar app using this
+# project's uv-managed virtualenv, then install it to /Applications.
 #
 # We build the bundle by hand rather than with py2app: py2app conflicts with the
 # project's PEP 621 pyproject metadata, and a launcher bundle is simpler, fully
@@ -9,7 +9,7 @@ set -euo pipefail
 
 PROJECT_DIR="$(cd "$(dirname "$0")/.." && pwd)"
 VENV_PY="$PROJECT_DIR/.venv/bin/python"
-APP_NAME="Parakeet Dictation"
+APP_NAME="Yap"
 APP="$PROJECT_DIR/dist/$APP_NAME.app"
 
 if [[ ! -x "$VENV_PY" ]]; then
@@ -29,29 +29,29 @@ cat > "$APP/Contents/Info.plist" <<PLIST
 <dict>
     <key>CFBundleName</key>            <string>$APP_NAME</string>
     <key>CFBundleDisplayName</key>     <string>$APP_NAME</string>
-    <key>CFBundleExecutable</key>      <string>parakeet-dictation</string>
-    <key>CFBundleIdentifier</key>      <string>com.khalid.parakeetdictation</string>
+    <key>CFBundleExecutable</key>      <string>yap</string>
+    <key>CFBundleIdentifier</key>      <string>com.yap.dictation</string>
     <key>CFBundlePackageType</key>     <string>APPL</string>
     <key>CFBundleShortVersionString</key> <string>0.1.0</string>
     <key>CFBundleVersion</key>         <string>0.1.0</string>
     <key>LSUIElement</key>             <true/>
     <key>LSMinimumSystemVersion</key>  <string>13.0</string>
     <key>NSMicrophoneUsageDescription</key>
-        <string>Parakeet Dictation transcribes your speech.</string>
+        <string>Yap transcribes your speech on-device.</string>
     <key>NSAppleEventsUsageDescription</key>
-        <string>Parakeet Dictation pastes transcribed text into the focused field.</string>
+        <string>Yap pastes transcribed text into the focused field.</string>
 </dict>
 </plist>
 PLIST
 
 # --- launcher executable ---
-cat > "$APP/Contents/MacOS/parakeet-dictation" <<LAUNCH
+cat > "$APP/Contents/MacOS/yap" <<LAUNCH
 #!/bin/bash
-# Launch the menu-bar app from the project's virtualenv.
-export PARAKEET_HOME="$PROJECT_DIR"
-exec "$VENV_PY" -m parakeet_dictation
+# Launch the Yap menu-bar app from the project's virtualenv.
+export YAP_HOME="$PROJECT_DIR"
+exec "$VENV_PY" -m yap
 LAUNCH
-chmod +x "$APP/Contents/MacOS/parakeet-dictation"
+chmod +x "$APP/Contents/MacOS/yap"
 
 echo "Installing to /Applications ..."
 rm -rf "/Applications/$APP_NAME.app"
@@ -62,8 +62,7 @@ cp -R "$APP" "/Applications/"
 
 echo
 echo "Done. '$APP_NAME' is installed in /Applications."
-echo "Launch it from Spotlight/Launchpad; look for the 🎙️ icon in the menu bar."
-echo "First run will ask for Microphone and Accessibility permissions — grant both."
-echo "NOTE: the bundle runs from this project's venv at:"
-echo "  $PROJECT_DIR/.venv"
+echo "Launch it from Spotlight/Launchpad; look for the 🦜 in your menu bar."
+echo "First run asks for Microphone and Accessibility permissions — grant both."
+echo "NOTE: the bundle runs from this project's venv at $PROJECT_DIR/.venv"
 echo "Keep the project in place; if you move it, re-run this script."

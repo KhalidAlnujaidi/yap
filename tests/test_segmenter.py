@@ -1,5 +1,5 @@
 import numpy as np
-from parakeet_dictation.vad import Segmenter
+from yap.vad import Segmenter
 
 
 def _frame():
@@ -56,7 +56,7 @@ def test_max_utterance_forces_emit():
 
 
 import subprocess
-from parakeet_dictation.vad import SileroVad
+from yap.vad import SileroVad
 
 
 def _say_to_pcm(text="testing one two three"):

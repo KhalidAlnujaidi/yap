@@ -1,5 +1,5 @@
-import parakeet_dictation
+import yap
 
 
 def test_package_imports():
-    assert parakeet_dictation.__doc__
+    assert yap.__doc__

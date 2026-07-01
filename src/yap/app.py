@@ -1,4 +1,4 @@
-"""Menu-bar dictation app: wires mic → VAD → transcribe → output."""
+"""Yap menu-bar app: wires mic → VAD → transcribe → output."""
 from __future__ import annotations
 
 import threading
@@ -11,8 +11,9 @@ from .output import OutputSink
 from .transcriber import Transcriber
 from .vad import Segmenter, SileroVad
 
-IDLE_ICON = "🎙️"
-BUSY_ICON = "✍️"
+IDLE_ICON = "🦜"       # waiting / silent
+BUSY_ICON = "💬"       # actively hearing speech
+PAUSED_ICON = "😴"     # paused
 
 
 class DictationApp(rumps.App):
@@ -54,23 +55,32 @@ class DictationApp(rumps.App):
         self._worker.start()
 
     def _run(self) -> None:
+        speaking = False
         for frame in self.mic.frames():
             if self._stop.is_set():
                 return
             if self.paused:
                 continue
             prob = self.vad.speech_prob(frame)
+
+            # Live reaction: flip the icon on speech-state changes only.
+            is_speech = prob >= self.segmenter.threshold
+            if is_speech != speaking:
+                speaking = is_speech
+                self._set_icon(BUSY_ICON if speaking else IDLE_ICON)
+
             utt = self.segmenter.push(frame, prob)
             if utt is not None:
                 self.vad.reset()
-                self._set_icon(BUSY_ICON)
+                speaking = False
+                self._set_icon(IDLE_ICON)
                 try:
                     text = self.transcriber.transcribe(utt)
                     if text:
                         self.sink.deliver(text)
                         self._refresh_recent()
-                finally:
-                    self._set_icon(IDLE_ICON)
+                except Exception:
+                    pass
 
     # ---- UI helpers ----
     def _set_icon(self, icon: str) -> None:
@@ -96,7 +106,7 @@ class DictationApp(rumps.App):
     def toggle_pause(self, _) -> None:
         self.paused = not self.paused
         self.pause_item.title = "Resume" if self.paused else "Pause"
-        self.title = "⏸️" if self.paused else IDLE_ICON
+        self.title = PAUSED_ICON if self.paused else IDLE_ICON
 
     def toggle_login(self, sender) -> None:
         try:
@@ -109,7 +119,7 @@ class DictationApp(rumps.App):
                 svc.registerAndReturnError_(None)
                 sender.state = True
         except Exception as e:  # not fatal — only works from the bundled .app
-            rumps.notification("Parakeet", "Login item", str(e))
+            rumps.notification("Yap", "Login item", str(e))
 
     def _login_enabled(self) -> bool:
         try:

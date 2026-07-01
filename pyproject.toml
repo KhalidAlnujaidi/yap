@@ -1,7 +1,7 @@
 [project]
-name = "parakeet-dictation"
+name = "yap"
 version = "0.1.0"
-description = "Always-on macOS menu-bar dictation using Parakeet TDT 0.6B v2 (MLX)"
+description = "Stop typing, start yapping — real-time, on-device dictation for Apple Silicon Macs (NVIDIA Parakeet via MLX)"
 requires-python = ">=3.12,<3.13"
 dependencies = [
     "parakeet-mlx",
@@ -28,7 +28,7 @@ requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [tool.hatch.build.targets.wheel]
-packages = ["src/parakeet_dictation"]
+packages = ["src/yap"]
 
 [tool.pytest.ini_options]
 pythonpath = ["src"]
