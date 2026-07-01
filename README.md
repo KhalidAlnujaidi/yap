@@ -5,7 +5,8 @@
 ### Stop typing. Start yapping.
 
 **Real-time, 100% on-device dictation for Apple Silicon Macs.**
-Speak anywhere — your words land where your cursor is. No button. No cloud. No latency you can feel.
+Speak anywhere — your words land where your cursor is. No button. No cloud.
+**One command to install. No model to pick, no API keys, no settings — it just runs.**
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-black.svg)](LICENSE)
 ![Platform](https://img.shields.io/badge/platform-Apple%20Silicon-black)
@@ -38,10 +39,24 @@ And it matters more now than ever. If you spend your day **coding and talking to
 
 - 🎙️ **Always-on, no button.** Sit in a quiet room and just talk — Yap detects speech automatically.
 - ⚡ **Faster than real-time.** Powered by [NVIDIA Parakeet TDT 0.6B v2](https://huggingface.co/nvidia/parakeet-tdt-0.6b-v2) running natively on Apple Silicon via [MLX](https://github.com/ml-explore/mlx). A sentence transcribes in a fraction of a second.
-- 🖇️ **Lands where your cursor is.** Focused a text field? Your words are typed straight in. Not focused? They're on your clipboard anyway.
+- 🖇️ **Lands where your cursor is.** Your words are typed straight in — editors, terminals, browsers, anywhere — and copied to your clipboard too.
 - 🔒 **Private by design.** Fully on-device. No account, no network, no telemetry.
 - 🦜 **Lives in your menu bar.** A parrot that flips to 💬 the instant it hears you and back to 🦜 when you pause. The last 15 phrases sit in the dropdown, one click to re-copy.
 - 😴 **Pause anytime**, and **launch at login** with one toggle.
+
+---
+
+## Why Yap is different
+
+Most dictation tools make *you* do the work first: pick a model, download gigabytes by hand, dig through settings — or paste in an API key and ship your voice off to someone else's cloud.
+
+Yap has none of that.
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/KhalidAlnujaidi/yap/main/install.sh | bash
+```
+
+**One command. No configuration. No API keys. No accounts.** It installs, pulls a state-of-the-art speech model once, and just runs — entirely on your device. That's the whole setup.
 
 ---
 
@@ -79,7 +94,8 @@ uv run python -m yap
 
 | Action | What happens |
 |---|---|
-| **Speak, then pause** | The finished phrase is copied to the clipboard and pasted into the focused text field. |
+| **Speak, then pause** | The finished phrase is pasted at your cursor and copied to the clipboard. |
+| **Auto-paste (⌘V)** | On by default; toggle off for clipboard-only mode. |
 | **🦜 → 💬** | The menu-bar icon reacts live while you're talking. |
 | **Click 🦜** | See your last 15 phrases — click any to re-copy it. |
 | **Pause** (😴) | Stops listening until you resume. |
@@ -118,6 +134,7 @@ The pause length and sensitivity live as constants on `Segmenter` in [`src/yap/v
 
 Yap is intentionally small and Apple-Silicon-first. It's **MIT-licensed** — fork it, ship it, extend it. Especially welcome:
 
+- 🧠 **An optional tiny local LLM that polishes raw speech into clean, grammatical sentences** — still 100% on-device, no keys, opt-in for when you want prose instead of verbatim.
 - 🪟 **Windows / 🐧 Linux** ports (swap the macOS clipboard/paste/menu-bar layer)
 - 🌍 Multilingual models (Parakeet has multilingual variants)
 - ⌨️ A push-to-talk / hotkey mode
