@@ -125,6 +125,18 @@ class DictationApp(rumps.App):
 
 
 def main() -> None:
+    # Force menu-bar-only (no Dock icon) regardless of how the bundle's
+    # Info.plist is resolved when launched via the venv-python launcher.
+    try:
+        from AppKit import (
+            NSApplication,
+            NSApplicationActivationPolicyAccessory,
+        )
+        NSApplication.sharedApplication().setActivationPolicy_(
+            NSApplicationActivationPolicyAccessory
+        )
+    except Exception:
+        pass
     DictationApp().run()
 
 

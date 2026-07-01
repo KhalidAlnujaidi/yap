@@ -1,15 +1,69 @@
 #!/usr/bin/env bash
+# Build a native "Parakeet Dictation.app" bundle that launches the menu-bar app
+# using this project's uv-managed virtualenv, then install it to /Applications.
+#
+# We build the bundle by hand rather than with py2app: py2app conflicts with the
+# project's PEP 621 pyproject metadata, and a launcher bundle is simpler, fully
+# transparent, and plays nicely with macOS TCC (mic/Accessibility) and login items.
 set -euo pipefail
-cd "$(dirname "$0")/.."
 
-echo "Building .app with py2app (alias mode for speed on first try)..."
-rm -rf build dist
-uv run python setup.py py2app -A   # -A = alias mode: fast, references the venv
+PROJECT_DIR="$(cd "$(dirname "$0")/.." && pwd)"
+VENV_PY="$PROJECT_DIR/.venv/bin/python"
+APP_NAME="Parakeet Dictation"
+APP="$PROJECT_DIR/dist/$APP_NAME.app"
+
+if [[ ! -x "$VENV_PY" ]]; then
+  echo "error: venv python not found at $VENV_PY — run 'uv sync' first." >&2
+  exit 1
+fi
+
+echo "Building $APP_NAME.app ..."
+rm -rf "$APP"
+mkdir -p "$APP/Contents/MacOS" "$APP/Contents/Resources"
+
+# --- Info.plist ---
+cat > "$APP/Contents/Info.plist" <<PLIST
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>CFBundleName</key>            <string>$APP_NAME</string>
+    <key>CFBundleDisplayName</key>     <string>$APP_NAME</string>
+    <key>CFBundleExecutable</key>      <string>parakeet-dictation</string>
+    <key>CFBundleIdentifier</key>      <string>com.khalid.parakeetdictation</string>
+    <key>CFBundlePackageType</key>     <string>APPL</string>
+    <key>CFBundleShortVersionString</key> <string>0.1.0</string>
+    <key>CFBundleVersion</key>         <string>0.1.0</string>
+    <key>LSUIElement</key>             <true/>
+    <key>LSMinimumSystemVersion</key>  <string>13.0</string>
+    <key>NSMicrophoneUsageDescription</key>
+        <string>Parakeet Dictation transcribes your speech.</string>
+    <key>NSAppleEventsUsageDescription</key>
+        <string>Parakeet Dictation pastes transcribed text into the focused field.</string>
+</dict>
+</plist>
+PLIST
+
+# --- launcher executable ---
+cat > "$APP/Contents/MacOS/parakeet-dictation" <<LAUNCH
+#!/bin/bash
+# Launch the menu-bar app from the project's virtualenv.
+export PARAKEET_HOME="$PROJECT_DIR"
+exec "$VENV_PY" -m parakeet_dictation
+LAUNCH
+chmod +x "$APP/Contents/MacOS/parakeet-dictation"
 
 echo "Installing to /Applications ..."
-rm -rf "/Applications/Parakeet Dictation.app"
-cp -R "dist/Parakeet Dictation.app" "/Applications/"
+rm -rf "/Applications/$APP_NAME.app"
+cp -R "$APP" "/Applications/"
+# Nudge LaunchServices to register the freshly installed bundle.
+/System/Library/Frameworks/CoreServices.framework/Frameworks/LaunchServices.framework/Support/lsregister \
+  -f "/Applications/$APP_NAME.app" 2>/dev/null || true
 
-echo "Done. Launch from /Applications or Spotlight."
-echo "NOTE: alias-mode bundle depends on this project's venv staying in place."
-echo "For a fully standalone bundle, run: uv run python setup.py py2app"
+echo
+echo "Done. '$APP_NAME' is installed in /Applications."
+echo "Launch it from Spotlight/Launchpad; look for the 🎙️ icon in the menu bar."
+echo "First run will ask for Microphone and Accessibility permissions — grant both."
+echo "NOTE: the bundle runs from this project's venv at:"
+echo "  $PROJECT_DIR/.venv"
+echo "Keep the project in place; if you move it, re-run this script."

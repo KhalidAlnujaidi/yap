@@ -21,7 +21,7 @@ dependencies = [
 ]
 
 [dependency-groups]
-dev = ["pytest", "py2app"]
+dev = ["pytest"]
 
 [build-system]
 requires = ["hatchling"]
